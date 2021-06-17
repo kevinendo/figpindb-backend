@@ -3,6 +3,8 @@ import mongodb from "mongodb"
 import dotenv from "dotenv"
 import PinsDAO from "./dao/pinsDAO.js"
 import CohortsDAO from "./dao/cohortsDAO.js"
+import UsersDAO from "./dao/usersDAO.js"
+import PinnyDAO from "./dao/pinnyDAO.js"
 
 dotenv.config()
 const MongoClient = mongodb.MongoClient
@@ -24,6 +26,9 @@ MongoClient.connect(
     .then(async client => {
         await PinsDAO.injectDB(client)
         await CohortsDAO.injectDB(client)
+        await UsersDAO.injectDB(client)
+        await PinnyDAO.injectDB(client)
+
         app.listen(port, () => {
             console.log(`listening on port ${port}`)
         })

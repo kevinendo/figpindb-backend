@@ -1,11 +1,12 @@
 
 import PinsDAO from "../dao/pinsDAO.js"
 import CohortsDAO from "../dao/cohortsDAO.js"
+import UsersDAO from "../dao/usersDAO.js"
 
 export default class PinsController {
   static async apiGetPins(req, res, next) {
     const pinsPerPage = req.query.pinsPerPage ? parseInt(req.query.pinsPerPage, 10) : 50
-    const page = req.query.page ? parseInt(req.query.page, 10) : 0
+    const page = req.query.page ? parseInt(req.query.page, 10) : 1
 
     let filters = {}
     if (req.query.name) {
@@ -81,4 +82,18 @@ export default class PinsController {
     let response = pinsList   
     res.json(response)
   }   
+
+  static async apiUserDetail(req, res, next) {
+    let filters = {}
+    if (req.query.display_name) {
+        filters.display_name = req.query.display_name
+    } else if  (req.query.user_id) {
+      filters.user_id = req.query.user_id
+  }
+    const { pinsList } = await UsersDAO.userDetail({filters})
+
+    let response = pinsList   
+    res.json(response)
+  } 
+
 }
